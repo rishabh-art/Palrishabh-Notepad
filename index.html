@@ -50,6 +50,7 @@
             <option value="3">Medium</option>
             <option value="4">Large</option>
         </select>
+        <button onclick="createTable()">Create Table</button>
         <button onclick="saveDocument()">Save</button>
         <button onclick="loadDocument()">Load</button>
     </div>
@@ -67,6 +68,23 @@
         function changeFontSize() {
             const fontSize = document.getElementById('font-size').value;
             document.execCommand('fontSize', false, fontSize);
+        }
+
+        function createTable() {
+            const rows = prompt("Enter number of rows:");
+            const cols = prompt("Enter number of columns:");
+            if (rows && cols) {
+                let table = '<table border="1" style="border-collapse: collapse;">';
+                for (let i = 0; i < rows; i++) {
+                    table += '<tr>';
+                    for (let j = 0; j < cols; j++) {
+                        table += '<td>&nbsp;</td>';
+                    }
+                    table += '</tr>';
+                }
+                table += '</table>';
+                document.execCommand('insertHTML', false, table);
+            }
         }
 
         function saveDocument() {
