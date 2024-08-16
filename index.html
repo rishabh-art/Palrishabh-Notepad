@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palrishabh Notes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .toolbar {
+            display: flex;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border-bottom: 1px solid #ccc;
+        }
+
+        button, select {
+            margin-right: 10px;
+            padding: 5px 10px;
+        }
+
+        #editor {
+            flex: 1;
+            padding: 20px;
+            border: 1px solid #ccc;
+            overflow-y: auto;
+            height: calc(100% - 50px); /* Adjust height based on toolbar height */
+        }
+    </style>
+</head>
+<body>
+    <div class="toolbar">
+        <button onclick="applyStyle('bold')">B</button>
+        <button onclick="applyStyle('italic')">I</button>
+        <button onclick="applyStyle('underline')">U</button>
+        <select id="font-family" onchange="changeFontFamily()">
+            <option value="Arial">Arial</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Courier New">Courier New</option>
+        </select>
+        <select id="font-size" onchange="changeFontSize()">
+            <option value="2">Small</option>
+            <option value="3">Medium</option>
+            <option value="4">Large</option>
+        </select>
+        <button onclick="saveDocument()">Save</button>
+        <button onclick="loadDocument()">Load</button>
+    </div>
+    <div id="editor" contenteditable="true"></div>
+    <script>
+        function applyStyle(style) {
+            document.execCommand(style, false, null);
+        }
+
+        function changeFontFamily() {
+            const fontFamily = document.getElementById('font-family').value;
+            document.execCommand('fontName', false, fontFamily);
+        }
+
+        function changeFontSize() {
+            const fontSize = document.getElementById('font-size').value;
+            document.execCommand('fontSize', false, fontSize);
+        }
+
+        function saveDocument() {
+            const content = document.getElementById('editor').innerHTML;
+            localStorage.setItem('documentContent', content);
+        }
+
+        function loadDocument() {
+            const content = localStorage.getItem('documentContent');
+            if (content) {
+                document.getElementById('editor').innerHTML = content;
+            } else {
+                alert('No document saved!');
+            }
+        }
+
+        // Load the document if it exists when the page loads
+        window.onload = function() {
+            loadDocument();
+        }
+    </script>
+</body>
+</html>
